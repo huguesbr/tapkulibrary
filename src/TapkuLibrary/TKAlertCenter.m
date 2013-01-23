@@ -31,7 +31,14 @@
 
 #import "TKAlertCenter.h"
 #import "UIView+TKCategory.h"
-
+	 
+#ifndef kTKAlertViewBackgroundColor
+#define kTKAlertViewBackgroundColor [UIColor colorWithWhite:0 alpha:0.8]
+#endif
+	 
+#ifndef kTKAlertViewTextFont	 
+#define kTKAlertViewTextFont [UIFont boldSystemFontOfSize:14]
+#endif
 
 #pragma mark -
 @interface TKAlertView : UIView {
@@ -39,6 +46,9 @@
 	NSString *_text;
 	UIImage *_image;
 }
+
+@property (strong) UIColor *alertBackgroundColor;
+@property (strong) UIFont *alertTextFont;
 
 - (id) init;
 - (void) setMessageText:(NSString*)str;
@@ -54,6 +64,8 @@
 	if(!(self = [super initWithFrame:CGRectMake(0, 0, 100, 100)])) return nil;
 	_messageRect = CGRectInset(self.bounds, 10, 10);
 	self.backgroundColor = [UIColor clearColor];
+    self.alertBackgroundColor = kTKAlertViewBackgroundColor;
+    self.alertTextFont = kTKAlertViewTextFont;
 	return self;
 	
 }
@@ -81,11 +93,11 @@
 
 
 - (void) drawRect:(CGRect)rect{
-	[[UIColor colorWithWhite:0 alpha:0.8] set];
+	[self.alertBackgroundColor set];
 	[self _drawRoundRectangleInRect:rect withRadius:10];
 	[[UIColor whiteColor] set];
 	[_text drawInRect:_messageRect
-			 withFont:[UIFont boldSystemFontOfSize:14]
+			 withFont:self.alertTextFont
 		lineBreakMode:NSLineBreakByWordWrapping
 			alignment:NSTextAlignmentCenter];
 	
@@ -100,7 +112,7 @@
 #pragma mark Setter Methods
 - (void) adjust{
 	
-	CGSize s = [_text sizeWithFont:[UIFont boldSystemFontOfSize:14]
+	CGSize s = [_text sizeWithFont:self.alertTextFont
 				 constrainedToSize:CGSizeMake(160,200)
 					 lineBreakMode:NSLineBreakByWordWrapping];
 	
@@ -161,6 +173,25 @@
 	return self;
 }
 
+-(void)setAlertTextFont:(UIFont *)alertTextFont
+{
+    _alertView.alertTextFont = alertTextFont;
+}
+
+- (UIFont *)alertTextFont
+{
+    return _alertView.alertTextFont;
+}
+
+-(void)setAlertBackgroundColor:(UIColor *)alertBackgroundColor
+{
+    _alertView.alertBackgroundColor = alertBackgroundColor;
+}
+
+- (UIColor *)alertBackgroundColor
+{
+    return _alertView.alertBackgroundColor;
+}
 
 #pragma mark Show Alert Message
 - (void) showAlerts{

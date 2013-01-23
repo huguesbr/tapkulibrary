@@ -42,6 +42,9 @@
 	CGRect _alertFrame;
 }
 
+@property (strong) UIFont *alertTextFont;
+@property (strong) UIColor *alertBackgroundColor;
+
 /** Returns the process’s default notification center. 
  @return The current process’s default notification center, which is used for alert notifications.
  */
