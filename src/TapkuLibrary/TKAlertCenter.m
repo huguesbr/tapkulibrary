@@ -35,9 +35,13 @@
 #ifndef kTKAlertViewBackgroundColor
 #define kTKAlertViewBackgroundColor [UIColor colorWithWhite:0 alpha:0.8]
 #endif
-	 
-#ifndef kTKAlertViewTextFont	 
-#define kTKAlertViewTextFont [UIFont boldSystemFontOfSize:14]
+
+#ifndef kTKAlertViewFont
+#define kTKAlertViewFont [UIFont boldSystemFontOfSize:14]
+#endif
+
+#ifndef kTKAlertViewTextColor
+#define kTKAlertViewTextColor [UIColor whiteColor]
 #endif
 
 #pragma mark -
@@ -48,7 +52,8 @@
 }
 
 @property (strong) UIColor *alertBackgroundColor;
-@property (strong) UIFont *alertTextFont;
+@property (strong) UIFont *alertFont;
+@property (strong) UIColor *alertTextColor;
 
 - (id) init;
 - (void) setMessageText:(NSString*)str;
@@ -65,7 +70,8 @@
 	_messageRect = CGRectInset(self.bounds, 10, 10);
 	self.backgroundColor = [UIColor clearColor];
     self.alertBackgroundColor = kTKAlertViewBackgroundColor;
-    self.alertTextFont = kTKAlertViewTextFont;
+    self.alertFont = kTKAlertViewFont;
+    self.alertTextColor = kTKAlertViewTextColor;
 	return self;
 	
 }
@@ -95,9 +101,9 @@
 - (void) drawRect:(CGRect)rect{
 	[self.alertBackgroundColor set];
 	[self _drawRoundRectangleInRect:rect withRadius:10];
-	[[UIColor whiteColor] set];
+	[self.alertTextColor set];
 	[_text drawInRect:_messageRect
-			 withFont:self.alertTextFont
+			 withFont:self.alertFont
 		lineBreakMode:NSLineBreakByWordWrapping
 			alignment:NSTextAlignmentCenter];
 	
@@ -112,7 +118,7 @@
 #pragma mark Setter Methods
 - (void) adjust{
 	
-	CGSize s = [_text sizeWithFont:self.alertTextFont
+	CGSize s = [_text sizeWithFont:self.alertFont
 				 constrainedToSize:CGSizeMake(160,200)
 					 lineBreakMode:NSLineBreakByWordWrapping];
 	
@@ -173,14 +179,14 @@
 	return self;
 }
 
--(void)setAlertTextFont:(UIFont *)alertTextFont
+-(void)setAlertFont:(UIFont *)alertFont
 {
-    _alertView.alertTextFont = alertTextFont;
+    _alertView.alertFont = alertFont;
 }
 
-- (UIFont *)alertTextFont
+- (UIFont *)alertFont
 {
-    return _alertView.alertTextFont;
+    return _alertView.alertFont;
 }
 
 -(void)setAlertBackgroundColor:(UIColor *)alertBackgroundColor
@@ -191,6 +197,16 @@
 - (UIColor *)alertBackgroundColor
 {
     return _alertView.alertBackgroundColor;
+}
+
+-(void)setAlertTextColor:(UIColor *)alertTextColor
+{
+    _alertView.alertTextColor = alertTextColor;
+}
+
+- (UIColor *)alertTextColor
+{
+    return _alertView.alertTextColor;
 }
 
 #pragma mark Show Alert Message
